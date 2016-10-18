@@ -1,0 +1,17 @@
+<html>
+<body>
+<script src="apiwrapper.js"></script>
+<script src=jquery.min.js></script>
+
+<script>
+document.write("begin\n");
+function logServerFunction(d){
+	console.log(d);
+}
+serverCreate("Clips", 96, "{}", logServerFunction);
+serverUpdate("Clips", 96, "{}",logServerFunction);
+serverGetData("Clips");
+document.write("end");
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+*.ini
+*.swp
+*.swap
+*.pycache
+*.exe
+*.pyc
+*.midi
+*.mid
