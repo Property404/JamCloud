@@ -57,7 +57,7 @@
 		global $g_table;
 		$result= mysqli_query($link, "SELECT * from $g_table where ID=$id");
 		if(!(mysqli_fetch_array($result)==false)){
-			$update_query= "UPDATE $g_table SET DATA='$data' WHERE ID=$id";
+			$update_query= "UPDATE $g_table SET DATA='$data', UPDATED=".time()." WHERE ID=$id";
 			mysqli_query($link, $update_query);
             
             

@@ -123,11 +123,11 @@ function Clip(id, startTime, duration, instrument) {
     this.contents = [];
 }
  
-function manifestLayers(layer){
+function manifestLayers(layer_id, layer){
 
     // Make a copy of the template
     var template = $("#instrumentTemplate").get(0).cloneNode(true);
-    template.id = "instrument_" + instrument.id;
+    template.id = "layer_" + layer_id;
     var $temp = $(template);
     // edit the template values
     $temp.removeClass("persistant").removeClass("hidden");

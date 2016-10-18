@@ -14,9 +14,9 @@ objectcommand.php allows a frontend to interact with the JamCloud database
 `status` will be `true` or `false`
 
 ### Actions
-**UPDATE** - Update object (requires data)
-**DELETE** - Delete object
-**CREATE** - Create object (required data)
+**UPDATE** - Update object (requires data)  
+**DELETE** - Delete object  
+**CREATE** - Create object (required data)  
 
 # getdata.php
 getdata.php returns objects as JSON
