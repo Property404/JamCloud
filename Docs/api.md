@@ -3,7 +3,7 @@
 objectcommand.php allows a frontend to interact with the JamCloud database  
 ### POST Request Parmaters
 
-**CLASS** - can be "Instruments" or "Clips"  
+**CLASS** - can be only be "Layers" for now  
 **ID** - The object ID  
 **ACTION** - The interaction command  
 **DATA** - Object JSON data  
@@ -21,16 +21,16 @@ objectcommand.php allows a frontend to interact with the JamCloud database
 # getdata.php
 getdata.php returns objects as JSON
 ### POST/GET Request Prameters
-**CLASS** - can be "Instruments or "Clips"
+**CLASS** - can only be "Layers" for now  
+**STAMP** - UNIX time stamp
 ### Return Data
 Returns as JSON in the format:  
   
     {
-        {"id":5,
-        "data":<OBJECT DATA IN JSON FORMAT>}},
-	{"id":256,
-	"data":<OBJECT DATA IN JSON FORMAT>}
+	"<id>":"<json data>",
+	"<id>":"<json data>"
     }
+
 
 # corgy/newmidi.py
 Creates MIDI in corgy/audio based on form data

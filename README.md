@@ -1,4 +1,4 @@
 # JamCloud
-A collaborative music mixer: Think GarageBand meets Google Docs  
+A collaborative music mixer  
 
-Current IP: 107.170.44.215
+Current site: jamcloud.net
