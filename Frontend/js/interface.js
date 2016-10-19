@@ -69,8 +69,8 @@ function buildTable() {
 	$(".clip").mousedown(startDragClip);
 	$('#playButton').click(playAll);
 	$('#stopButton').click(stopAll);
-	$('#newLayer').click(createInstrument);
-	$('#layerRemove').click(deleteInstrument);
+	$('#newLayer').click(createLayer);
+	$('#layerRemove').click(deleteLayerSelfishly);
 	$('.clip').dblclick(editClip);
 
 
@@ -126,36 +126,39 @@ function manifestLayer(layer_id, layer) {
 	$temp.removeClass("persistant").removeClass("hidden");
 	$temp.find(".layerSettings > .text").text(
 		layer.name);
+	$temp.find(".layerRemove > .data").data(layer_id);
 
 	// add the newly-filled template to the list
 	$temp.insertBefore("#layerAdd");
 }
 
-function createInstrument() {
+function createLayer() {
+	/* Create blank layer */
+	var layer = new Layer("Untitled");
 
-	var instrument = {
-		"id": 1,
-		"data": {
-			"type": "acoustic_grand_piano",
-			"volume": 1,
-			"balance": 0
-		}
-	};
+	/* Get Layer name */
+	layer.name = window.prompt("Layer name", layer.name);
 
-	instrument.type = window.prompt("What kind of instrument would you like?", "acoustic_grand_piano");
+	/* Get random id */
+	id = 0
+	while (id in layers) {
+		id = getRandomInt(0, 255);
+	}
 
-	serverCreate("Instruments", instrument.id, {
-		type: instrument.data.type,
-		volume: instrument.data.volume,
-		balance: instrument.data.volume
-	}, null);
-	addInstrument(instrument);
+	/* Add to client */
+	layers[id] = layer;
+
+	/* Add to server */
+	serverCreate("Layers", id, layer
+	, logServerResponse);
+
+	/* Rebuild table */
 	buildTable();
 }
 
 //doesnt work
-function deleteInstrument(event) {
-
+function deleteLayerSelfishly(event) {
+	console.log(event);
 	console.log(event.target.parent.parent.id.substring(event.target.parent().parent().id.indexOf(_) + 1));
 	serverDelete("Instruments", event.target.parent().parent().id.substring(event.target.parent().parent().id.indexOf(_) + 1), null);
 	buildTable();
