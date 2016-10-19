@@ -18,7 +18,7 @@ body {
     
 }
 
-#instrumentRemove {
+#layerRemove {
 	width: 15px;
 	height: 15px;
 	background:red;
@@ -27,14 +27,14 @@ body {
 	line-height: 9px;
 }
 
-.instrument {
+.layer {
     position: relative;
     height: 60px;
     /*border-bottom: 4px solid rgba(0, 0, 0, .1);*/
     margin-bottom: 4px;
 }
 
-.instrumentSettings {
+.layerSettings {
     position: fixed;
     left: 0;
     width: calc(200px - 4px);
@@ -91,7 +91,7 @@ body {
     box-shadow: 4px 4px 20px rgba(0, 0, 0, .2);
     z-index: 99998 !important;
 }
-.clip > .text, .instrumentSettings > .text {
+.clip > .text, .layerSettings > .text {
     padding: 5px;
     line-height: calc(60px - 2 * 5px);
     pointer-events: none;
@@ -100,7 +100,7 @@ body {
     text-overflow: ellipsis;
 }
 
-#newInstr {
+#newLayer {
     border-radius: 50%;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, .5);
     width: 30px;

@@ -55,33 +55,22 @@ function buildTable() {
 	$("#content > :not(.persistant)").remove();
 
 	// go through and manifest the layers
-	layer_values = new Array();
-	for (var key in a) {
-		layer_values.push(layers[key]);
-	}
-	for (var i = 0; i < layers_values.length; i++) {
-		manifestLayer(layer_values[i]);
-	}
-	data.clips.sort(function(a, b) {
-		if (a.data.startTime < b.data.startTime) return -1;
-		if (a.data.startTime > b.data.startTime) return 1;
-		return 0;
-	});
-	for (var j = 0; j < data.clips.length; j++) {
-		addClip(data.clips[j]);
-	}
-	if (i === 0) { // No instruments: new file
-		// TODO show new file options
-	} else if (j === 0) { // there are instruments, just no clips yet
-		// TODO show add clips options
+	for (var key in layers) {
+		console.log(layers[key].clips);
+		manifestLayer(key, layers[key]);
+		/* manifest clips */
+		for(var i=0;i<layers[key].clips.length;i++){
+			manifestClip(key, layers[key].clips[i]);
+		}
 	}
 
+	
 	// add event listeners
 	$(".clip").mousedown(startDragClip);
 	$('#playButton').click(playAll);
 	$('#stopButton').click(stopAll);
-	$('#newInstr').click(createInstrument);
-	$('#instrumentRemove').click(deleteInstrument);
+	$('#newLayer').click(createInstrument);
+	$('#layerRemove').click(deleteInstrument);
 	$('.clip').dblclick(editClip);
 
 
@@ -125,29 +114,21 @@ function stopAll() {
 	$('#timerBar').css('left', '200px');
 }
 
-// clip constructor: a segment of sound (MIDI music, file audio)
-function Clip(id, startTime, duration, instrument) {
-	this.id = id;
-	this.startTime = startTime;
-	this.duration = duration;
-	this.instrument = instrument;
-	this.type = note;
-	this.contents = [];
-}
 
-function manifestLayers(layer_id, layer) {
-
+function manifestLayer(layer_id, layer) {
+	console.log("Manifesting Layer "+layer_id+"!");
 	// Make a copy of the template
-	var template = $("#instrumentTemplate").get(0).cloneNode(true);
+	var template = $("#layerTemplate").get(0).cloneNode(true);
+	console.log(template);
 	template.id = "layer_" + layer_id;
 	var $temp = $(template);
 	// edit the template values
 	$temp.removeClass("persistant").removeClass("hidden");
-	$temp.find(".instrumentSettings > .text").text(
-		instrument.data.type);
+	$temp.find(".layerSettings > .text").text(
+		layer.name);
 
 	// add the newly-filled template to the list
-	$temp.insertBefore("#instrumentAdd");
+	$temp.insertBefore("#layerAdd");
 }
 
 function createInstrument() {
@@ -181,7 +162,7 @@ function deleteInstrument(event) {
 
 }
 
-function addClip(clip) {
+function manifestClip(layer_id,clip) {
 	// copy the template
 	var template = $("#clipTemplate").get(0).cloneNode(true);
 	template.id = "clip_" + clip.id;
@@ -191,15 +172,15 @@ function addClip(clip) {
 	$clipElem.removeClass("persistant").removeClass("hidden");
 	$clipElem
 		.css({
-			left: (time_scale * clip.data.startTime) + "px",
-			width: (time_scale * clip.data.duration) + "px",
-			zIndex: parseInt(clip.data.startTime)
+			left: (time_scale * clip.start) + "px",
+			width: (time_scale * clip.duration) + "px",
+			zIndex: parseInt(clip.start)
 		})
 		.find(".text")
-		.text("TODO content");
+		.text(clip.content.pitch);
 
 	// add the newly-filled template to the list
-	$("#instrument_" + clip.data.instrument)
+	$("#layer_" + layer_id)
 		.find(".clipTimeline").append($clipElem);
 }
 
@@ -404,7 +385,7 @@ function everyXSeconds(x, func) {
 // any updates should be handled
 var lastTime = Date.now();
 
-function pollUpdates() {
+function pollUpdates() { /*
 	everyXSeconds(POLL_FREQUENCY, function() {
 		$.get("../Backend/requestupdates.php?TIMESTAMP=" +
 			(lastTime - lastTime),
@@ -430,7 +411,7 @@ function pollUpdates() {
 				}
 			});
 		lastTime = Date.now() - POLL_FREQUENCY;
-	});
+	});*/
 }
 
 // given an update data row, do the necessary changes locally

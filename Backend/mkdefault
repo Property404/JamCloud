@@ -1,0 +1,2 @@
+./post Layers DELETE 42 ayy;./post Layers CREATE 42 "{\"name\":\"Guitar\",\"instrument\":5,\"clips\":[{\"start\":0,\"duration\":5,\"content\":{\"pitch\":80}}]}"
+
