@@ -159,16 +159,24 @@ function createLayer() {
 	buildTable();
 }
 
-//doesnt work
+/* Delete layer to which it belongs when clicked on */
 function deleteLayerSelfishly(event) {
-	console.log("DELETEING");
+	/* Delete layer from client */
 	layer_id_str = event.target.parentNode.parentNode.id;
 	layer_id = parseInt(layer_id_str.substr(6))
 	delete layers[layer_id];
+	
+	/* Delete from server */
+	serverDelete("Layers",layer_id,null,logServerResponse);
 	buildTable();
 
 }
+function clipContextMenu(event){
+	subContextMenu(["delete clip", "edit clip"]);
+}
+function subContextMenu(options, event){
 
+}
 function manifestClip(layer_id, clip) {
 	// copy the template
 	var template = $("#clipTemplate").get(0).cloneNode(true);
@@ -198,9 +206,9 @@ var startDragClip = (function() {
 		dragging = "dragging";
 	var oldStartLeft = -1,
 		oldMouseX = -1,
-		oldInstrument = -1,
-		instrumentHeight = -1,
-		$newInstrument,
+		oldLayer = -1,
+		layerHeight = -1,
+		$newLayer,
 		oldScrollX = -1,
 		oldStartTop = -1;
 	return function(event) {
@@ -208,18 +216,18 @@ var startDragClip = (function() {
 			$clip.addClass(dragging);
 			oldStartLeft = parseFloat($clip.css("left"));
 			oldMouseX = parseFloat(event[xVal]);
-			oldInstrument = parseInt($clip.parentsUntil("#content").last()
+			oldLayer= parseInt($clip.parentsUntil("#content").last()
 				.attr("id").split("_")[1]);
 			oldStartTop = $clip.parentsUntil("#content").last()
 				.position().top;
 			var newX = -1;
 			oldScrollX = $(window).scrollLeft();
 
-			var $tempInstrument = $("#instrumentTemplate");
-			instrumentHeight = $tempInstrument.height() +
-				parseInt($tempInstrument.css("margin-bottom"));
+			var $tempLayer= $("#layerTemplate");
+			layerHeight = $tempLayer.height() +
+				parseInt($tempLayer.css("margin-bottom"));
 
-			var $instruments = $(".instrument:not(.persistant)");
+			var $layers = $(".layer:not(.persistant)");
 			var mouseMove = function(event) {
 				// Handle x movement
 				var deltaX = event[xVal] - oldMouseX;
@@ -229,14 +237,14 @@ var startDragClip = (function() {
 				$clip.css("left", newX + "px");
 
 				// handle y movement (change of instrument)
-				$newInstrument = whichInstrumentForY($instruments,
+				$newLayer = whichLayerForY($layers,
 					event[yVal],
-					instrumentHeight);
-				if ($newInstrument != null) {
-					var newY = $newInstrument.position().top - oldStartTop;
+					layerHeight);
+				if ($newLayer != null) {
+					var newY = $newLayer.position().top - oldStartTop;
 					$clip.css("top", newY + "px");
 				} else {
-					$newInstrument = $clip.parentsUntil("#content").last();
+					$newLayer= $clip.parentsUntil("#content").last();
 				}
 			};
 			var end = function(event) {
@@ -244,7 +252,7 @@ var startDragClip = (function() {
 				$(document).off("mouseup", end)
 					.off("mousemove", mouseMove);
 				// Update the server
-				var instrID = parseInt($newInstrument.attr("id")
+				var instrID = parseInt($newLayer.attr("id")
 					.split("_")[1]);
 				var clipID = parseInt($clip.attr("id").split("_")[1]);
 				var clipData = getClipDataForClipId(clipID);
@@ -284,11 +292,11 @@ var startDragClip = (function() {
 			$(document).mousemove(mouseMove).mouseup(end);
 		}
 		// find which instrument the y-position is referring to
-	function whichInstrumentForY($instruments, y, instrumentHeight) {
-		var size = $instruments.size();
+	function whichLayerForY($layers, y, layerHeight) {
+		var size = $layers.size();
 		for (var i = 0; i < size; i++) {
-			if ((i + 1) * instrumentHeight > y) {
-				return $instruments.eq(i);
+			if ((i + 1) * layerHeight > y) {
+				return $layer.eq(i);
 			}
 		}
 		return null;

@@ -41,7 +41,8 @@ body {
     width: calc(200px - 4px);
     height: 60px;
     z-index: 99999;
-    
+    text-align: center;
+    vertical-align: middle;
     background: grey;
     background: linear-gradient(to bottom, grey, #111);
     box: 2px 0 5px rgba(0, 0, 0, 1);
