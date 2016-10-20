@@ -70,7 +70,10 @@ function buildTable() {
 	$('#playButton').click(playAll);
 	$('#stopButton').click(stopAll);
 	$('#newLayer').click(createLayer);
-	$('#layerRemove').click(deleteLayerSelfishly);
+	xbutts = document.getElementsByClassName("layerRemoveButton");
+	for(var i = 0; i < xbutts.length; i++){
+	xbutts[i].addEventListener('click',deleteLayerSelfishly,false);
+	}
 	$('.clip').dblclick(editClip);
 
 
@@ -126,7 +129,8 @@ function manifestLayer(layer_id, layer) {
 	$temp.removeClass("persistant").removeClass("hidden");
 	$temp.find(".layerSettings > .text").text(
 		layer.name);
-	$temp.find(".layerRemove > .data").data(layer_id);
+
+//$temp.find(".layerRemove > .data").data(layer_id);
 
 	// add the newly-filled template to the list
 	$temp.insertBefore("#layerAdd");
@@ -158,9 +162,10 @@ function createLayer() {
 
 //doesnt work
 function deleteLayerSelfishly(event) {
-	console.log(event);
-	console.log(event.target.parent.parent.id.substring(event.target.parent().parent().id.indexOf(_) + 1));
-	serverDelete("Instruments", event.target.parent().parent().id.substring(event.target.parent().parent().id.indexOf(_) + 1), null);
+	console.log("DELETEING");
+	layer_id_str = event.target.parentNode.parentNode.id;
+	layer_id = parseInt(layer_id_str.substr(6))
+	delete layers[layer_id];
 	buildTable();
 
 }

@@ -35,7 +35,7 @@
             <div id=layerTemplate
                  class="layer persistant hidden">
                 <div class=layerSettings>
- 		    <div id=layerRemove class=layerRemoveButton>&times;</div>
+ 		    <div id=layerRemove class=layerRemoveButton>X</div>
                     <div class=text></div>
 		  
                 </div>
@@ -50,7 +50,7 @@
         <div id=controls>
             BPM: <input type=number size=4 id=bpm>
             <button id=playButton>&gt;</button>
-	    <button id=stopButton>&times;</button>
+	    <button id=stopButton>X</button>
         </div>
         
     </body>

@@ -1,7 +1,7 @@
 body {
-    font-family: "Ubuntu", "Roboto", sans-serif;
-    background: honeydew;
-    color: aquamarine;
+    font-family: "Gill Sans", sans-serif;
+    background: #d3d3d3;
+    color: #F0F0F0;
     overflow: scroll;
     -webkit-user-select: none;
 }
@@ -21,10 +21,11 @@ body {
 #layerRemove {
 	width: 15px;
 	height: 15px;
-	background:red;
+	color: #CCCCCC;
+	background:none;
 	z-index: 99999;
 	font-size: 15px;
-	line-height: 9px;
+	line-height: 20px;
 }
 
 .layer {
